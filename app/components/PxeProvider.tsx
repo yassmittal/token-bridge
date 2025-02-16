@@ -8,6 +8,7 @@ import { RPC_URL } from "../constants";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { PXELoadingScreen } from "./PXELoadingScreen";
+import { TokenSetup } from "./TokenSetup";
 
 export const PxeProvider = ({ children }: { children: React.ReactNode }) => {
   const setPXEClient = useSetAtom(pxeAtom);
@@ -58,5 +59,5 @@ export const PxeProvider = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
-  return <>{children}</>;
+  return <TokenSetup>{children}</TokenSetup>;
 };
