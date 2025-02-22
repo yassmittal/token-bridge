@@ -13,7 +13,7 @@ type DeployTokenType = {
   tokenSymbol: string;
 };
 
-export const useDeployToken = ({
+export const useDeployL2Token = ({
   ownerWallet,
   ownerAztecAddress,
   tokenName,
@@ -21,7 +21,7 @@ export const useDeployToken = ({
 }: DeployTokenType) => {
   const setL2TokenContract = useSetAtom(L2TokenContractAtom);
 
-  const deployToken = async () => {
+  const deployL2Token = async () => {
     const loadingToastId = toast.loading("Deploying token...", {
       duration: Infinity,
     });
@@ -55,5 +55,5 @@ export const useDeployToken = ({
     }
   };
 
-  return { deployToken };
+  return { deployL2Token };
 };

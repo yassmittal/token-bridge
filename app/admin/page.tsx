@@ -2,10 +2,10 @@
 
 import { useAtomValue } from "jotai";
 import { currentWalletAtom, L2TokenContractAtom } from "../atoms";
-import { useDeployToken } from "../hooks/useDeployToken";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useDeployL2Token } from "../hooks/useL2DeployToken";
 
 export default function Admin() {
   const currentWallet = useAtomValue(currentWalletAtom);
@@ -13,7 +13,7 @@ export default function Admin() {
   const [tokenSymbol, setTokenSymbol] = useState("");
   const L2TokenContract = useAtomValue(L2TokenContractAtom);
 
-  const { deployToken } = useDeployToken({
+  const { deployL2Token } = useDeployL2Token({
     ownerWallet: currentWallet,
     ownerAztecAddress: currentWallet?.getAddress(),
     tokenName,
@@ -39,7 +39,7 @@ export default function Admin() {
           />
 
           <Button
-            onClick={deployToken}
+            onClick={deployL2Token}
             disabled={!tokenName.length || !tokenSymbol.length}
           >
             Deploy Token
