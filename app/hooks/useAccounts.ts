@@ -45,7 +45,7 @@ export const useAccount = (pxeClient: PXE) => {
       );
       console.log("Before Setup");
       await account.waitSetup();
-      const wallet = (await account.getWallet()) as any as Wallet;
+      const wallet = await account.getWallet();
       const { address } = await account.getCompleteAddress();
       console.log("Account Address", address);
       const salt = account.getInstance().salt;
