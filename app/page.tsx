@@ -6,13 +6,25 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2, ArrowDownIcon, ArrowUpIcon } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { PopupWalletSdk } from "@shieldswap/wallet-sdk";
 
 export default function Home() {
   const currentWallet = useAtomValue(currentWalletAtom);
   const pxe = useAtomValue(pxeAtom);
   const [isLoading, setIsLoading] = useState(false);
   const [amount, setAmount] = useState("");
+
+  useEffect(() => {
+    const loadWalletSdk = async () => {
+      const walletSdk = new PopupWalletSdk(pxe!);
+      const wallet = await walletSdk.getAccount();
+      console.log("walletSdk from main page", walletSdk);
+      console.log("wallet from main page", wallet);
+    };
+
+    loadWalletSdk();
+  }, [pxe]);
 
   const currentWalletAddress = currentWallet?.getAddress();
 

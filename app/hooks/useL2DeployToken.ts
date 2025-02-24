@@ -3,7 +3,6 @@ import { TokenContract } from "@aztec/noir-contracts.js/Token";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
   l1PortalContractAddressAtom,
-  l1PortalManagerAtom,
   l2BridgeContractAtom,
   l2TokenContractAtom,
 } from "../atoms";

@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "./Spinnner";
+import { PopupWalletSdk } from "@shieldswap/wallet-sdk";
 
 const shortenAddress = (address: string) => {
   const str = address.toString();
@@ -30,7 +31,7 @@ export const Header = () => {
   const wallets = useAtomValue(walletsAtom);
   const pxe = useAtomValue(pxeAtom);
   const { createAccount, isCreating } = useAccount(pxe!);
-  const wallet = useAtomValue(walletSDKAtom);
+  const wallet = new PopupWalletSdk(pxe!);
 
   const { isLoading: isLoadingAccounts, error: accountsError } =
     useLoadAccountFromStorage(pxe!);

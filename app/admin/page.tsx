@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useDeployL2Token } from "../hooks/useL2DeployToken";
-import { useL1DeployToken } from "../hooks/useL1DeployToken";
+// import { useL1DeployToken } from "../hooks/useL1DeployToken";
 import { toast } from "sonner";
 import { useBridgeTokens } from "../hooks/useBridgeTokens";
 
@@ -45,15 +45,15 @@ export default function Admin() {
     tokenSymbol: l2TokenSymbol,
   });
 
-  const {
-    deployL1Token,
-    deployTokenPortal,
-    initializeL1PortalManager,
-    ownerEthAddress,
-  } = useL1DeployToken({
-    tokenName: l1TokenName,
-    tokenSymbol: l1TokenSymbol,
-  });
+  // const {
+  //   deployL1Token,
+  //   deployTokenPortal,
+  //   initializeL1PortalManager,
+  //   ownerEthAddress,
+  // } = useL1DeployToken({
+  //   tokenName: l1TokenName,
+  //   tokenSymbol: l1TokenSymbol,
+  // });
 
   const { bridgeTokensToL2, claimBridgedTokensToL2, isBridging, isClaiming } =
     useBridgeTokens({
@@ -68,14 +68,15 @@ export default function Admin() {
         console.log("l1 token manager not found while fetching balance");
         return;
       }
-      const l1Balance = await l1TokenManager.getL1TokenBalance(ownerEthAddress);
+      // const l1Balance = await l1TokenManager.getL1TokenBalance(ownerEthAddress);
       console.log("fetched l1 balance", l1Balance);
 
       setL1Balance(l1Balance);
     };
 
     fetchL1Balance();
-  }, [l1TokenManager, ownerEthAddress, l1Balance , isClaiming]);
+  }, [l1TokenManager, l1Balance, isClaiming]);
+  // }, [l1TokenManager, ownerEthAddress, l1Balance, isClaiming]);
 
   useEffect(() => {
     const fetchL2Balance = async () => {
@@ -93,7 +94,7 @@ export default function Admin() {
     };
 
     fetchL2Balance();
-  }, [l2TokenContract, ownerAztecAddress , isClaiming]);
+  }, [l2TokenContract, ownerAztecAddress, isClaiming]);
 
   const mintL1Token = async () => {
     if (!l1TokenManager) {
@@ -102,8 +103,8 @@ export default function Admin() {
     }
     try {
       setL1TokenMinting(true);
-      await l1TokenManager.mint(BigInt(l1MintAmount), ownerEthAddress);
-      const l1Balance = await l1TokenManager.getL1TokenBalance(ownerEthAddress);
+      // await l1TokenManager.mint(BigInt(l1MintAmount), ownerEthAddress);
+      // const l1Balance = await l1TokenManager.getL1TokenBalance(ownerEthAddress);
       setL1Balance(l1Balance);
       console.log("new minted tokens", l1Balance);
       toast.success(`${l1MintAmount} MINTED successfully on L1`);
@@ -119,7 +120,9 @@ export default function Admin() {
   return (
     <div className="p-6 flex flex-col gap-6 max-w-[900px] mx-auto">
       <div className="bg-primary/30">
-        L1 Balance of {ownerEthAddress}: {l1Balance}
+        L1 Balance of
+        {/* {ownerEthAddress}:  */}
+        {l1Balance}
       </div>
 
       <div className="bg-primary/30">
@@ -169,7 +172,7 @@ export default function Admin() {
           </div>
 
           <Button
-            onClick={deployL1Token}
+            // onClick={deployL1Token}
             disabled={!l1TokenName.length || !l1TokenSymbol.length}
           >
             Deploy L1 Token
@@ -179,7 +182,11 @@ export default function Admin() {
 
       {!l1Portal && (
         <div className="flex flex-col gap-4 border border-dashed p-4">
-          <Button onClick={deployTokenPortal}>Deploy Token Portal</Button>
+          <Button
+          //  onClick={deployTokenPortal}
+          >
+            Deploy Token Portal
+          </Button>
         </div>
       )}
 
@@ -193,7 +200,9 @@ export default function Admin() {
 
       {!l1PortalManager && (
         <div className="flex flex-col gap-4 border border-dashed p-4">
-          <Button onClick={initializeL1PortalManager}>
+          <Button
+          //  onClick={initializeL1PortalManager}
+          >
             Initialize l1 Portal Manager
           </Button>
         </div>

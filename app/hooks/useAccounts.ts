@@ -4,10 +4,11 @@ import { useAtom } from "jotai";
 import { walletsAtom, currentWalletAtom } from "../atoms";
 import { ACCOUNTS_STORAGE_KEY, NFT_CONTRACT_KEY } from "../constants";
 import { NFTContract } from "@aztec/noir-contracts.js/NFT";
-import { deriveSigningKey, GrumpkinScalar } from "@aztec/circuits.js";
+import { GrumpkinScalar } from "@aztec/circuits.js";
 // import { toast } from "react-hot-toast";
 import { useLocalStorage } from "react-use";
 import { useState } from "react";
+import { PopupWalletSdk } from "@shieldswap/wallet-sdk";
 
 export const useAccount = (pxeClient: PXE) => {
   const [accountInStorage, setAccountsInStorage] = useLocalStorage(
@@ -45,7 +46,13 @@ export const useAccount = (pxeClient: PXE) => {
       );
       console.log("Before Setup");
       await account.waitSetup();
-      const wallet = await account.getWallet();
+      const walletSdk = new PopupWalletSdk(pxeClient);
+      const loadWalletSdk = async () => {
+        const wallet = await walletSdk.getAccount();
+        console.log("account1 from sdk", wallet);
+      };
+      await loadWalletSdk();
+
       const { address } = await account.getCompleteAddress();
       console.log("Account Address", address);
       const salt = account.getInstance().salt;
@@ -77,9 +84,9 @@ export const useAccount = (pxeClient: PXE) => {
       //TODO: Similarly fetch init hash and deployer
       // const deployedContract = await wallet.deploy()
       // console.log('Account created', wallet.getAddress().toShortString());
-      setWallets([wallet, ...wallets]);
+      setWallets([wallet as unknown as AccountWalletWithSecretKey, ...wallets]);
       if (!currentWallet) {
-        setCurrentWallet(wallet);
+        setCurrentWallet(wallet as unknown as AccountWalletWithSecretKey);
       }
       return wallet;
     } catch (e) {
