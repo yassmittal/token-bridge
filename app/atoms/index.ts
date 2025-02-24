@@ -1,8 +1,15 @@
 import { atom } from "jotai";
-import { AccountWalletWithSecretKey, PXE } from "@aztec/aztec.js";
+import {
+  AccountWalletWithSecretKey,
+  EthAddress,
+  L1TokenManager,
+  L1TokenPortalManager,
+  PXE,
+} from "@aztec/aztec.js";
 import { PayTransactionFull } from "../types";
 import { NFTContract } from "@aztec/noir-contracts.js/NFT";
 import { TokenContract } from "@aztec/noir-contracts.js/Token";
+import { TokenBridgeContract } from "@aztec/noir-contracts.js/TokenBridge";
 
 // Existing PXE atom
 export const pxeAtom = atom<PXE | null>(null);
@@ -24,4 +31,12 @@ export const remountKeyAtom = atom<number>(0);
 export const walletSDKAtom = atom<any>(null);
 export const nftContractAtom = atom<NFTContract | null>(null);
 
-export const L2TokenContractAtom = atom<TokenContract | null>(null);
+export const l2TokenContractAtom = atom<TokenContract | null>(null);
+export const l1TokenContractAddressAtom = atom<EthAddress | null>(null);
+export const l1TokenManagerAtom = atom<L1TokenManager | null>(null);
+
+export const l1PortalContractAddressAtom = atom<EthAddress | null>(null);
+export const l1PortalAtom = atom<unknown>(null);
+
+export const l2BridgeContractAtom = atom<TokenBridgeContract | null>(null);
+export const l1PortalManagerAtom = atom<L1TokenPortalManager | null>(null);

@@ -42,7 +42,6 @@ export const useLoadAccountFromStorage = (pxeClient: PXE | null) => {
       const registeredAddresses = registeredAccounts.map(({ address }) =>
         address.toString()
       );
-      console.log("Registered addresses:", registeredAddresses);
 
       const walletsPromises = localAccounts.map(
         async ({ secretKey, salt, address }) => {
