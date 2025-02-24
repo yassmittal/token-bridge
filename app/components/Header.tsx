@@ -1,71 +1,68 @@
-"use client";
-import React from "react";
-import { useAtom, useAtomValue } from "jotai";
-import { Wallet, PlusCircle, ChevronDown, Plug } from "lucide-react";
-import {
-  currentWalletAtom,
-  pxeAtom,
-  walletsAtom,
-  walletSDKAtom,
-} from "../atoms";
-import { useAccount } from "../hooks/useAccounts";
-import { useLoadAccountFromStorage } from "../hooks/useLoadAccountsFromStorage";
+'use client'
+import React from 'react'
+import { useAtom, useAtomValue } from 'jotai'
+import { Wallet, PlusCircle, ChevronDown, Plug } from 'lucide-react'
+import { currentWalletAtom, pxeAtom, walletsAtom, walletSDKAtom } from '../atoms'
+import { useAccount } from '../hooks/useAccounts'
+import { useLoadAccountFromStorage } from '../hooks/useLoadAccountsFromStorage'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { Spinner } from "./Spinnner";
-import { PopupWalletSdk } from "@shieldswap/wallet-sdk";
+} from '@/components/ui/dropdown-menu'
+import { Button } from '@/components/ui/button'
+import { Spinner } from './Spinnner'
+import { PopupWalletSdk } from '@shieldswap/wallet-sdk'
 
 const shortenAddress = (address: string) => {
-  const str = address.toString();
-  return `${str.slice(0, 6)}...${str.slice(-4)}`;
-};
+  const str = address.toString()
+  return `${str.slice(0, 6)}...${str.slice(-4)}`
+}
 
 export const Header = () => {
-  const [currentWallet, setCurrentWallet] = useAtom(currentWalletAtom);
-  const wallets = useAtomValue(walletsAtom);
-  const pxe = useAtomValue(pxeAtom);
-  const { createAccount, isCreating } = useAccount(pxe!);
-  const wallet = new PopupWalletSdk(pxe!);
+  const [currentWallet, setCurrentWallet] = useAtom(currentWalletAtom)
+  const wallets = useAtomValue(walletsAtom)
+  const walletSDK = useAtomValue(walletSDKAtom)
+  const pxe = useAtomValue(pxeAtom)
+  const { createAccount, isCreating } = useAccount(pxe!)
+  // const wallet = new PopupWalletSdk(pxe!);
 
-  const { isLoading: isLoadingAccounts, error: accountsError } =
-    useLoadAccountFromStorage(pxe!);
+  const { isLoading: isLoadingAccounts, error: accountsError } = useLoadAccountFromStorage(pxe!)
 
   const handleConnectSdk = async () => {
     try {
-      const account = await wallet.connect();
-      console.log("address: ", account.getAddress().toString());
+      if (!walletSDK) {
+        console.error('Wallet sdk undefined')
+        return
+      }
+      const account = await walletSDK.connect()
+      console.log('address: ', account.getAddress().toString())
     } catch (error) {
-      console.log("Failed to connect to wallet client", error);
+      console.log('Failed to connect to wallet client', error)
     }
-  };
+  }
 
   const handleCreateWallet = async () => {
     try {
-      await createAccount();
+      await createAccount()
     } catch (error) {
-      console.error("Failed to create wallet:", error);
+      console.error('Failed to create wallet:', error)
     }
-  };
+  }
 
   if (isLoadingAccounts) {
-    console.log("loading accounts", isLoadingAccounts);
+    console.log('loading accounts', isLoadingAccounts)
     return (
       <div className="text-sm text-muted-foreground">
         <Spinner />
       </div>
-    );
+    )
   }
 
   if (accountsError) {
-    return (
-      <div className="text-sm text-destructive">Error: {accountsError}</div>
-    );
+    return <div className="text-sm text-destructive">Error: {accountsError}</div>
   }
 
   return (
@@ -132,9 +129,7 @@ export const Header = () => {
                   {isCreating ? (
                     <>
                       <Spinner />
-                      <span className="text-muted-foreground">
-                        Creating Wallet...
-                      </span>
+                      <span className="text-muted-foreground">Creating Wallet...</span>
                     </>
                   ) : (
                     <>
@@ -149,5 +144,5 @@ export const Header = () => {
         </div>
       </div>
     </header>
-  );
-};
+  )
+}

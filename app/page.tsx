@@ -1,32 +1,32 @@
-"use client";
-import { useAtomValue } from "jotai";
-import { currentWalletAtom, pxeAtom } from "./atoms";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Loader2, ArrowDownIcon, ArrowUpIcon } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useEffect, useState } from "react";
-import { PopupWalletSdk } from "@shieldswap/wallet-sdk";
+'use client'
+import { useAtomValue } from 'jotai'
+import { currentWalletAtom, pxeAtom } from './atoms'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Loader2, ArrowDownIcon, ArrowUpIcon } from 'lucide-react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { useEffect, useState } from 'react'
+import { PopupWalletSdk } from '@shieldswap/wallet-sdk'
 
 export default function Home() {
-  const currentWallet = useAtomValue(currentWalletAtom);
-  const pxe = useAtomValue(pxeAtom);
-  const [isLoading, setIsLoading] = useState(false);
-  const [amount, setAmount] = useState("");
+  const currentWallet = useAtomValue(currentWalletAtom)
+  const pxe = useAtomValue(pxeAtom)
+  const [isLoading, setIsLoading] = useState(false)
+  const [amount, setAmount] = useState('')
 
-  useEffect(() => {
-    const loadWalletSdk = async () => {
-      const walletSdk = new PopupWalletSdk(pxe!);
-      const wallet = await walletSdk.getAccount();
-      console.log("walletSdk from main page", walletSdk);
-      console.log("wallet from main page", wallet);
-    };
+  // useEffect(() => {
+  //   const loadWalletSdk = async () => {
+  //     const walletSdk = new PopupWalletSdk(pxe!);
+  //     const wallet = await walletSdk.getAccount();
+  //     console.log("walletSdk from main page", walletSdk);
+  //     console.log("wallet from main page", wallet);
+  //   };
 
-    loadWalletSdk();
-  }, [pxe]);
+  //   loadWalletSdk();
+  // }, [pxe]);
 
-  const currentWalletAddress = currentWallet?.getAddress();
+  const currentWalletAddress = currentWallet?.getAddress()
 
   return (
     <div className="container mx-auto p-4 max-w-2xl">
@@ -94,7 +94,7 @@ export default function Home() {
                           Bridging...
                         </>
                       ) : (
-                        "Bridge to Aztec"
+                        'Bridge to Aztec'
                       )}
                     </Button>
                   </div>
@@ -125,7 +125,7 @@ export default function Home() {
                           Bridging...
                         </>
                       ) : (
-                        "Bridge to Ethereum"
+                        'Bridge to Ethereum'
                       )}
                     </Button>
                   </div>
@@ -136,5 +136,5 @@ export default function Home() {
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }
